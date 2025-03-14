@@ -51,9 +51,19 @@ async def main():
         except KeyboardInterrupt:
             print("\n\nExiting...")
             break
+        except EOFError:
+            print("\n\nInput stream ended. Exiting...")
+            break
         except Exception as e:
             print(f"\nError: {str(e)}")
             logging.error(f"Unexpected error: {str(e)}", exc_info=True)
+            break
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("\n\nExiting...")
+    except Exception as e:
+        print(f"\nFatal error: {str(e)}")
+        logging.error(f"Fatal error: {str(e)}", exc_info=True)
